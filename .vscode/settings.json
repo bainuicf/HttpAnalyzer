@@ -1,0 +1,5 @@
+{
+    "qtForPython.designer.path": ".venv\\Lib\\site-packages\\PySide6\\designer.exe",
+    "qtForPython.lupdate.path": ".venv\\Lib\\site-packages\\PySide6\\linguist.exe",
+    "python.formatting.provider": "autopep8"
+}

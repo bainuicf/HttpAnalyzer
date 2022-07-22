@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"qtForPython.designer.path": "e:\\FIR\\Coding\\HttpAnalyzer\\.venv\\Lib\\site-packages\\PySide6\\designer.exe",
+		"qtForPython.lupdate.path": "e:\\FIR\\Coding\\HttpAnalyzer\\.venv\\Lib\\site-packages\\PySide6\\linguist.exe"
+	}
+}
