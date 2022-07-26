@@ -3,7 +3,7 @@
 @说明    :
 @时间    :2022/07/20 15:31:02
 @作者    :ShellC
-@版本    :1.0
+@版本    :1.0.0.220726
 '''
 
 #!/usr/bin/env python
@@ -62,6 +62,7 @@ def httpAnalyst(url, method, headers=HEADERS):
         result = requests.get(url, headers)
     elif method == "POST":
         result = requests.post(url, headers)
+    result.encoding= 'UTF-8'
     return(result.text)
 
 
