@@ -9,6 +9,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
+import json
 import sys
 from urllib import response
 import requests
@@ -42,22 +43,15 @@ class MainWidget(QWidget):
         url = self.ui.inputURL.text()
         method = self.ui.inputMethod.currentText()
         options = self.ui.inputOpt.toPlainText()
-        if options=="":
-            response= httpAnalyst(url,method)
-        else:
-            headers= formatHeaders(options)
-            response= httpAnalyst(url,method,headers)
-        print(options)
+        if options!="":
+            headers= formatOpts(options)
+            HEADERS.update(headers)
+        response= httpAnalyst(url, method, HEADERS)
         self.ui.inputResult.setPlainText(response)
 
-# 格式化报头信息函数
-def formatHeaders(options):
-    headers={}
-    headers= eval(options)
-    return(headers)
 
 # 发起http请求函数
-def httpAnalyst(url, method, headers=HEADERS):
+def httpAnalyst(url, method, headers):
     if method == "GET":
         result = requests.get(url, headers)
     elif method == "POST":
@@ -65,6 +59,14 @@ def httpAnalyst(url, method, headers=HEADERS):
     result.encoding= 'UTF-8'
     return(result.text)
 
+def formatOpts(option):
+    header={}
+    a= option.split('\n')
+    for i in a:
+        if i!= '':
+            b= i.split(':', 1)
+            header[b[0]]=[1]
+    return(header)
 
 if __name__ == '__main__':
 
