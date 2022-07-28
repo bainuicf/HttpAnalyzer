@@ -10,8 +10,8 @@
 # -*- encoding: utf-8 -*-
 
 import json
+from pprint import pprint
 import sys
-from urllib import response
 import requests
 from PySide6.QtWidgets import *
 from PySide6.QtUiTools import QUiLoader
@@ -37,17 +37,28 @@ class MainWidget(QWidget):
         # 2.调用UI.ui
         # self.ui = QUiLoader().load('UI.ui')
 
-        self.ui.buttonAnylast.clicked.connect(self.buttonAnylast_click)
+        self.ui.buttonAnylast.clicked.connect(self.buttonAnylast_click)    # 绑定分析按钮点击事件
 
     def buttonAnylast_click(self):
-        url = self.ui.inputURL.text()
-        method = self.ui.inputMethod.currentText()
-        options = self.ui.inputOpt.toPlainText()
-        if options!="":
-            headers= formatOpts(options)
-            HEADERS.update(headers)
-        response= httpAnalyst(url, method, HEADERS)
-        self.ui.inputResult.setPlainText(response)
+        try:
+            headers= HEADERS
+            url = self.ui.inputURL.text()
+            method = self.ui.inputMethod.currentText()
+            options = self.ui.inputOpt.toPlainText()
+            if options!="":
+                headers.update(formatOpts(options))
+            response= httpAnalyst(url, method, headers)
+            self.ui.inputResult.setPlainText(response)
+            self.ui.inputOpt.setPlainText(showHeaders(headers))
+        except:
+            self.errorMessage()
+            # self.ui.inputURL.setText('')
+            # self.ui.inputOpt.setPlainText('')
+            self.ui.inputResult.setPlainText('')
+
+    def errorMessage(self):
+        QMessageBox.critical(self, '错误', '网址或参数输入错误，请检查！')
+
 
 
 # 发起http请求函数
@@ -64,9 +75,15 @@ def formatOpts(option):
     a= option.split('\n')
     for i in a:
         if i!= '':
-            b= i.split(':', 1)
-            header[b[0]]=[1]
+            b= i.split(': ', 1)
+            header[b[0]]=b[1]
     return(header)
+
+def showHeaders(headers):
+    opts=''
+    for i in headers.items():
+        opts += str(i[0])+': '+str(i[1])+'\n'
+    return(opts)        
 
 if __name__ == '__main__':
 
